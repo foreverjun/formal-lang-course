@@ -1,5 +1,6 @@
 from project import graph_module
 import networkx as nx
+import pathlib
 
 
 def get_graph_metrics_test():
@@ -13,7 +14,10 @@ def get_graph_metrics_test():
 
 
 def save_graph_test():
-    graph_module.generate_and_save_two_cycles_graph(3, 4, ("c", "d"), "test.dot")
-    graph = nx.nx_pydot.read_dot("test.dot")
-    actual_graph = nx.labeled_two_cycles_graph(3, 4, labels=("c", "d"))
-    assert nx.is_isomorphic(graph, actual_graph)
+    graph_module.generate_and_save_two_cycles_graph(4, 5, ("c", "d"), "actual.dot")
+    current_dir = pathlib.Path().resolve()
+    expected_path = pathlib.Path(current_dir, "expected.dot")
+    actual_path = pathlib.Path(current_dir, "actual.dot")
+    with open(expected_path, "r") as expected_file:
+        with open(actual_path, "r") as actual_file:
+            assert expected_file.read() == actual_file.read()
