@@ -18,9 +18,6 @@ def test_save_graph():
     expected_path = os.path.join(current_dir_path, "expected.dot")
     actual_path = os.path.join(current_dir_path, "actual.dot")
     graph_module.generate_and_save_two_cycles_graph(4, 5, ("c", "d"), actual_path)
-    print(expected_path)
-    print(actual_path)
-    print(current_dir_path)
     with open(expected_path, "r") as expected_file:
         with open(actual_path, "r") as actual_file:
             assert expected_file.read() == actual_file.read()
