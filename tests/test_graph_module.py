@@ -14,10 +14,10 @@ def test_get_graph_metrics():
 
 
 def test_save_graph():
-    graph_module.generate_and_save_two_cycles_graph(4, 5, ("c", "d"), "actual.dot")
     current_dir_path = os.path.dirname(os.path.realpath(__file__))
     expected_path = os.path.join(current_dir_path, "expected.dot")
     actual_path = os.path.join(current_dir_path, "actual.dot")
+    graph_module.generate_and_save_two_cycles_graph(4, 5, ("c", "d"), actual_path)
     print(expected_path)
     print(actual_path)
     print(current_dir_path)
