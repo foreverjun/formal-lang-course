@@ -14,12 +14,9 @@ def test_get_graph_metrics():
 
 
 def test_save_graph():
-    graph_module.generate_and_save_two_cycles_graph(
-        4, 5, ("c", "d"), "tests/actual.dot"
-    )
-    current_dir = pathlib.Path().absolute()
-    expected_path = pathlib.Path(current_dir, "expected.dot")
-    actual_path = pathlib.Path(current_dir, "actual.dot")
+    graph_module.generate_and_save_two_cycles_graph(4, 5, ("c", "d"), "actual.dot")
+    expected_path = pathlib.Path("expected.dot").absolute()
+    actual_path = pathlib.Path("actual.dot").absolute()
     with open(expected_path, "r") as expected_file:
         with open(actual_path, "r") as actual_file:
             assert expected_file.read() == actual_file.read()
