@@ -29,7 +29,7 @@ def get_graph_metrics_by_name(name: str) -> Tuple[int, int, set]:
 def generate_and_save_two_cycles_graph(
     first_cycle_num: int, second_cycle_num: int, labels: Tuple[str, str], path: str
 ):
-    graph = nx.labeled_two_cycles_graph(
+    graph = cfpq_data.labeled_two_cycles_graph(
         first_cycle_num, second_cycle_num, labels=labels
     )
     nx.nx_pydot.write_dot(graph, path)
