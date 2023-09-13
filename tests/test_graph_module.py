@@ -17,9 +17,9 @@ def test_save_graph():
     graph_module.generate_and_save_two_cycles_graph(
         4, 5, ("c", "d"), "tests/actual.dot"
     )
-    current_dir = pathlib.Path().resolve()
-    expected_path = pathlib.Path(current_dir, "test", "expected.dot")
-    actual_path = pathlib.Path(current_dir, "tests", "actual.dot")
+    current_dir = pathlib.Path().absolute()
+    expected_path = pathlib.Path(current_dir, "expected.dot")
+    actual_path = pathlib.Path(current_dir, "actual.dot")
     with open(expected_path, "r") as expected_file:
         with open(actual_path, "r") as actual_file:
             assert expected_file.read() == actual_file.read()
