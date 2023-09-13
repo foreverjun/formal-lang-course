@@ -1,5 +1,4 @@
 from project import graph_module
-import networkx as nx
 import pathlib
 
 
