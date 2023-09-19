@@ -37,16 +37,18 @@ def graph_to_nfa(
     # Set start and final states of graph to true if they are in start_states or final_states.
     # If start_states or final_states is None, all nodes would be considered as start or final states respectively.
 
-    if start_states is not None:
+    if start_states is not None and start_states != set():
         for node in start_states:
             graph.nodes[node]["is_start"] = True
     else:
         for node in graph.nodes:
-            graph.nodes[node]["is_start"] = True
+            if node in graph.nodes:
+                graph.nodes[node]["is_start"] = True
 
-    if final_states is not None:
+    if final_states is not None and final_states != set():
         for node in final_states:
-            graph.nodes[node]["is_final"] = True
+            if node in graph.nodes:
+                graph.nodes[node]["is_final"] = True
     else:
         for node in graph.nodes:
             graph.nodes[node]["is_final"] = True
