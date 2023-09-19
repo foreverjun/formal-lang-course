@@ -24,12 +24,18 @@ def get_graph_metrics_by_name(name: str) -> Tuple[int, int, set]:
     return get_graph_metrics(graph)
 
 
+def generate_two_cycles_graph(
+    first_cycle_num: int, second_cycle_num: int, labels: Tuple[str, str]
+) -> nx.MultiDiGraph:
+    return cfpq_data.labeled_two_cycles_graph(
+        first_cycle_num, second_cycle_num, labels=labels
+    )
+
+
 # first_cycle_num : The number of nodes in the first cycle without a common node
 # second_cycle_num : The number of nodes in the second cycle without a common node
 def generate_and_save_two_cycles_graph(
     first_cycle_num: int, second_cycle_num: int, labels: Tuple[str, str], path: str
 ):
-    graph = cfpq_data.labeled_two_cycles_graph(
-        first_cycle_num, second_cycle_num, labels=labels
-    )
+    graph = generate_two_cycles_graph(first_cycle_num, second_cycle_num, labels)
     nx.nx_pydot.write_dot(graph, path)
