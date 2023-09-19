@@ -1,3 +1,5 @@
+from typing import Set
+
 import networkx as nx
 from pyformlang.finite_automaton import (
     DeterministicFiniteAutomaton,
@@ -17,7 +19,7 @@ def regex_to_dfa(regex: Regex) -> DeterministicFiniteAutomaton:
 
 
 def graph_to_nfa(
-    graph: nx.MultiDiGraph, start_states: set[int] = None, final_states: set[int] = None
+    graph: nx.MultiDiGraph, start_states: Set[int] = None, final_states: Set[int] = None
 ) -> NondeterministicFiniteAutomaton:
     """
     Convert a networkx MultiDiGraph to a NondeterministicFiniteAutomaton
