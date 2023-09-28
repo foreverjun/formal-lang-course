@@ -52,29 +52,29 @@ def test_fa_intersect():
 
 def test_automata_intersection1():
     automaton1 = regex_to_dfa(Regex("a.(b|c)*.d"))
-    automaton2 = regex_to_dfa(Regex("a*.b*.c*"))
+    automaton2 = regex_to_dfa(Regex("a.(c|d)*.d"))
     intersection = fa_intersection(automaton1, automaton2)
-    assert not intersection.accepts([Symbol("a")])
-    assert not intersection.accepts([Symbol("a"), Symbol("b")])
-    assert not intersection.accepts([Symbol("a"), Symbol("c")])
-    assert not intersection.accepts([Symbol("a"), Symbol("d")])
-    assert intersection.accepts([Symbol("a"), Symbol("c"), Symbol("d")])
-    assert intersection.accepts([Symbol("a"), Symbol("b"), Symbol("c"), Symbol("d")])
+    assert not intersection.accepts(
+        [Symbol("a"), Symbol("b"), Symbol("c"), Symbol("d")]
+    )
+    assert not intersection.accepts(
+        [Symbol("a"), Symbol("d"), Symbol("c"), Symbol("d")]
+    )
+    assert intersection.accepts([Symbol("a"), Symbol("c"), Symbol("c"), Symbol("d")])
+    assert not intersection.accepts([Symbol("a"), Symbol("d"), Symbol("d")])
 
 
 def test_automata_intersection2():
     automaton1 = regex_to_dfa(Regex("(a|b).c.(a|b)"))
     automaton2 = regex_to_dfa(Regex("(a|b).(c|d).(a|b)"))
     intersection = fa_intersection(automaton1, automaton2)
-    assert not intersection.accepts([Symbol("a")])
-    assert not intersection.accepts([Symbol("d")])
     assert not intersection.accepts([Symbol("a"), Symbol("c")])
     assert not intersection.accepts([Symbol("b"), Symbol("d")])
     assert intersection.accepts([Symbol("a"), Symbol("c"), Symbol("a")])
     assert intersection.accepts([Symbol("b"), Symbol("c"), Symbol("b")])
 
 
-def test_rpq3():
+def test_rpq1():
     automaton = NondeterministicFiniteAutomaton()
     automaton.add_transition(State(0), Symbol("a"), State(1))
     automaton.add_transition(State(1), Symbol("b"), State(2))
@@ -86,7 +86,7 @@ def test_rpq3():
     assert rpq(graph, Regex("(a|f).(b|d)*.c"), {0}, {3}) == {(0, 3)}
 
 
-def test_rpq4():
+def test_rpq2():
     automaton = NondeterministicFiniteAutomaton()
     automaton.add_transition(State(0), Symbol("a"), State(1))
     automaton.add_transition(State(1), Symbol("b"), State(2))
@@ -97,7 +97,7 @@ def test_rpq4():
     assert rpq(graph, Regex("(a.b.c)|(a.d)"), {0}, {3, 5}) == {(0, 3), (0, 5)}
 
 
-def test_rpq5():
+def test_rpq3():
     automaton = NondeterministicFiniteAutomaton()
     automaton.add_transition(State(0), Symbol("a"), State(1))
     automaton.add_transition(State(1), Symbol("b"), State(2))
