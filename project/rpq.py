@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Tuple, Any
+from typing import Tuple, Any, Set, Dict, List
 
 import networkx as nx
 from pyformlang.finite_automaton import (
@@ -15,10 +15,10 @@ from project.finite_automata_tools import graph_to_nfa, regex_to_dfa
 
 @dataclass
 class FABooleanDecomposition:
-    start_states: set[Any] = field(default_factory=set)
-    final_states: set[Any] = field(default_factory=set)
-    states_to_index: dict[Any, int] = field(default_factory=dict)
-    decomposition: dict[Any, csr_matrix] = field(default_factory=dict)
+    start_states: Set[Any] = field(default_factory=set)
+    final_states: Set[Any] = field(default_factory=set)
+    states_to_index: Dict[Any, int] = field(default_factory=dict)
+    decomposition: Dict[Any, csr_matrix] = field(default_factory=dict)
 
 
 def decompose_automaton(automaton: FiniteAutomaton) -> FABooleanDecomposition:
@@ -43,7 +43,7 @@ def decompose_automaton(automaton: FiniteAutomaton) -> FABooleanDecomposition:
         bool_decomposition.states_to_index[node] = counter
         counter += 1
 
-    decomposition_buf: dict[str : Tuple[list[int], list[int], list[int]]] = {}
+    decomposition_buf: Dict[str : Tuple[List[int], List[int], List[int]]] = {}
     for edge in edges:
         if edge[2] is not None:
             if edge[2] not in decomposition_buf:
@@ -138,7 +138,7 @@ def fa_intersection(
     return automation
 
 
-def transitive_closure(matrix: csr_matrix) -> list[tuple[int, int]]:
+def transitive_closure(matrix: csr_matrix) -> List[Tuple[int, int]]:
     if not matrix.nnz:
         return []
 
@@ -157,9 +157,9 @@ def transitive_closure(matrix: csr_matrix) -> list[tuple[int, int]]:
 def rpq(
     graph: nx.MultiDiGraph,
     regex: Regex,
-    start_states: set[int] = None,
-    final_states: set[int] = None,
-) -> set[tuple[int, int]]:
+    start_states: Set[int] = None,
+    final_states: Set[int] = None,
+) -> Set[Tuple[int, int]]:
     gr_automation = graph_to_nfa(graph, start_states, final_states)
     re_automation = regex_to_dfa(regex)
     intersection = decomposition_intersection(
