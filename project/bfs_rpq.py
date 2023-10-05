@@ -59,11 +59,6 @@ def bfs_rpq(
 ):
     graph_bool_dec = decompose_automaton(graph_to_nfa(graph, start_nodes, final_nodes))
     regex_bool_dec = decompose_automaton(regex_to_dfa(regex))
-    print(len(regex_bool_dec.states_to_index))
-    print(regex_bool_dec.states_to_index)
-    print(regex_bool_dec.final_states)
-    print(regex_bool_dec.start_states)
-    print(graph_bool_dec.states_to_index)
 
     start_indexes = {
         graph_bool_dec.states_to_index[st] for st in graph_bool_dec.start_states
@@ -111,21 +106,7 @@ def bfs_rpq(
     res = set()
     graph_index_to_state = {v: k for k, v in graph_bool_dec.states_to_index.items()}
     regex_index_to_state = {v: k for k, v in regex_bool_dec.states_to_index.items()}
-    print(len(regex_bool_dec.states_to_index))
-    print(regex_bool_dec.final_states)
     for i, j in zip(*visited.nonzero()):
-        if len(graph_bool_dec.states_to_index) <= j:
-            print(len(graph_bool_dec.states_to_index) <= j)
-            print(
-                graph_index_to_state[j - len(regex_bool_dec.states_to_index)]
-                in graph_bool_dec.final_states
-            )
-            print(
-                regex_index_to_state[i % len(regex_bool_dec.states_to_index)]
-                in regex_bool_dec.final_states
-            )
-            print(i, j)
-            print(regex_index_to_state[i % len(regex_bool_dec.states_to_index)])
         if (
             len(regex_bool_dec.states_to_index) <= +j
             and graph_index_to_state[j - len(regex_bool_dec.states_to_index)]
