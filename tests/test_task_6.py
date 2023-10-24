@@ -6,7 +6,8 @@ from project.task_6 import *
 
 
 def test_empty_file():
-    cfg = cfg_from_file("tests/test_files/empty_file")
+    current_dir_path = os.path.dirname(os.path.realpath(__file__))
+    cfg = cfg_from_file(os.path.join(current_dir_path, "res", "empty_cfg_file"), "S")
     weak = cfg_to_weak_cnf(cfg)
     assert cfg.is_empty()
     assert weak.is_empty()
