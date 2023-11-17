@@ -24,35 +24,51 @@ def hellings(cfg: CFG, graph: MultiDiGraph) -> List[Tuple]:
         else:
             epsilons.append(prod)
 
-    r = []
+    paths_from_nonterminals_list = []
     edges = graph.edges(data="label")
     for (u, v, label) in edges:
         for prod in term_prods:
             if label == prod.body[0].to_text():
-                r.append((u, prod.head.to_text(), v))
+                paths_from_nonterminals_list.append((u, prod.head.to_text(), v))
     for node in graph.nodes():
         for prod in epsilons:
-            r.append((node, prod.head.to_text(), node))
-    m = r.copy()
-    while len(m) > 0:
-        (u, N, v) = m.pop()
+            paths_from_nonterminals_list.append((node, prod.head.to_text(), node))
+    paths_from_nonterminals_queue = paths_from_nonterminals_list.copy()
+    while len(paths_from_nonterminals_queue) > 0:
+        (u, N, v) = paths_from_nonterminals_queue.pop(0)
 
-        for (a, NT, b) in r:
+        for (a, NT, b) in paths_from_nonterminals_list:
             if u == b:
                 for prod in nonterm_prods:
                     if NT == prod.body[0].to_text() and N == prod.body[1].to_text():
-                        if (a, prod.head.to_text(), v) not in r:
-                            r.append((a, prod.head.to_text(), v))
-                            m.append((a, prod.head.to_text(), v))
+                        if (
+                            a,
+                            prod.head.to_text(),
+                            v,
+                        ) not in paths_from_nonterminals_list:
+                            paths_from_nonterminals_list.append(
+                                (a, prod.head.to_text(), v)
+                            )
+                            paths_from_nonterminals_queue.append(
+                                (a, prod.head.to_text(), v)
+                            )
 
-        for (a, NT, b) in r:
+        for (a, NT, b) in paths_from_nonterminals_list:
             if v == a:
                 for prod in nonterm_prods:
                     if NT == prod.body[1].to_text() and N == prod.body[0].to_text():
-                        if (u, prod.head.to_text(), b) not in r:
-                            r.append((u, prod.head.to_text(), b))
-                            m.append((u, prod.head.to_text(), b))
-    return r
+                        if (
+                            u,
+                            prod.head.to_text(),
+                            b,
+                        ) not in paths_from_nonterminals_list:
+                            paths_from_nonterminals_list.append(
+                                (u, prod.head.to_text(), b)
+                            )
+                            paths_from_nonterminals_queue.append(
+                                (u, prod.head.to_text(), b)
+                            )
+    return paths_from_nonterminals_list
 
 
 def cfpq(
