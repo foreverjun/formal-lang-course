@@ -71,7 +71,7 @@ def hellings(cfg: CFG, graph: MultiDiGraph) -> List[Tuple]:
     return paths_from_nonterminals_list
 
 
-def cfpq(
+def cfpq_hellings(
     graph: MultiDiGraph,
     cfg: CFG,
     start: Set = None,
