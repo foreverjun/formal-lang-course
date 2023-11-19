@@ -1,7 +1,7 @@
 from networkx import MultiDiGraph
 from pyformlang.cfg import CFG
 
-from project.task_8 import cfpq_hellings, hellings
+from project.task_9 import cfpq_matrices
 
 
 def test_1():
@@ -23,8 +23,7 @@ def test_1():
     B -> b
     """
     cfg = CFG.from_text(text)
-    print(hellings(cfg, graph))
-    assert cfpq_hellings(graph, cfg) == {(2, 4), (5, 7), (0, 6), (0, 2), (1, 3)}
+    assert cfpq_matrices(graph, cfg) == {(2, 4), (5, 7), (0, 6), (0, 2), (1, 3)}
 
 
 def test_2():
@@ -45,7 +44,7 @@ A -> a A b | a b
             (5, 6, {"label": "b"}),
         ]
     )
-    assert cfpq_hellings(graph, cfg) == {(0, 6), (1, 5), (2, 4)}
+    assert cfpq_matrices(graph, cfg) == {(0, 6), (1, 5), (2, 4)}
 
 
 def test_3():
@@ -69,7 +68,7 @@ def test_3():
             (9, 10, {"label": "b"}),
         ]
     )
-    assert cfpq_hellings(graph, cfg) == {
+    assert cfpq_matrices(graph, cfg) == {
         (0, 7),
         (2, 4),
         (1, 5),
