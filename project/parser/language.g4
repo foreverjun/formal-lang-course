@@ -1,24 +1,22 @@
 grammar language;
 
-prog: EOL* stmt* EOF;
+prog: EOL* (stmt EOL*)* EOF;
 
-stmt: 'val' var '=' expr ';'
-    | 'print' expr ';'
+stmt: 'val' var '=' expr ';' #decl
+    | 'print' expr ';' #print
     ;
 
-expr: '(' expr ')'
-    | var
-    | val
-    | map
-    | filter
-    | intersection
-    | concat
-    | union
-    | star
-    | '('expr ',' expr ')'
-    | '('expr ',' expr ',' expr ')'
-    | expr 'in' expr
-    | 'not' expr
+expr: var #exprvar
+    | val #exprval
+    | map #exprmap
+    | filter #exprfilter
+    | intersection #exprintersection
+    | concat #exprconcat
+    | union #exprunion
+    | star #exprstar
+    | expr 'in' expr #in
+    | 'not' expr #not
+    |'(' expr ')' #exprparens
     ;
 
 INT: [0]|([-]?([1-9][0-9]*));
@@ -27,58 +25,64 @@ var: ID;
 
 ID: [a-zA-Z]( [a-zA-Z0-9_] )*;
 
-String: '"' ~[\n]* '"' ;
+STRING: '"' ~[\n;]* '"';
 
 bool: 'true' | 'false';
 
-path: String ;
+path: STRING ;
 
-val: String
-    | INT
-    | bool
-    | set
-    | graph
-    | set
-    | nodes
-    | edges
-    | labels
-    | CFG
-    | REGEX
+val: STRING #string
+    | INT #valint
+    | bool #valbool
+    | set #valset
+    | graph #valgraph
+    | set #valset
+    | nodes #valnodes
+    | edges #valedges
+    | labels #vallabels
+    | 'cfg' '('  STRING  ')' #lcfg
+    | 'regex' '(' STRING ')' #regexp
+    | '('expr ',' expr ')' #pair
+    | '('expr ',' expr ',' expr ')' #triple
     ;
 
 set: '{' val (',' val)* '}';
 
-graph: var
-    | 'set_start' '(' nodes ',' graph ')'
-    | 'set_final' '(' nodes ',' graph ')'
-    | 'add_start' '(' nodes ',' graph ')'
-    | 'add_final' '(' nodes ',' graph ')'
-    | 'load_graph' '(' String ')'
-    | 'load_from_file' '(' path ')';
+graph: var #graphname
+    | 'set_start' '(' nodes ',' graph ')' #set_start
+    | 'set_final' '(' nodes ',' graph ')' #set_final
+    | 'add_start' '(' nodes ',' graph ')' #add_start
+    | 'add_final' '(' nodes ',' graph ')' #add_final
+    | 'load_graph' '(' STRING ')' #load_graph
+    | 'load_from_file' '(' path ')' #load_from_file
+    ;
 
-labels: set
-    | 'get_labels' '(' graph ')';
+labels: set #labelsset
+    | 'get_labels' '(' graph ')' #get_labels
+    ;
 
-edges: set
-    | 'get_edges' '(' graph ')';
+edges: set #edgesset
+    | 'get_edges' '(' graph ')' #get_edges
+    ;
 
-nodes: set
-    | 'get_nodes' '(' graph ')'
-    | 'get_start' '(' graph ')'
-    | 'get_final' '(' graph ')'
-    | 'get_reachable' '(' graph ')';
+nodes: set #nodeset
+    | 'get_nodes' '(' graph ')' #get_nodes
+    | 'get_start' '(' graph ')' #get_start
+    | 'get_final' '(' graph ')' #get_final
+    | 'get_reachable' '(' graph ')' #get_reachable
+    ;
 
 map: 'map' '(' lambda ',' expr ')';
 filter: 'filter' '(' lambda ',' expr ')';
 
-pattern: var
-    | '(' pattern ')'
-    | '(' pattern ',' pattern ')'
-    | '(' pattern ',' pattern ',' pattern ')'
+pattern: '(' pattern ')' #patparens
+    | '(' pattern ',' pattern ')' #patpair
+    | '(' pattern ',' pattern ',' pattern ')' #pattriple
+    | ID #patname
     ;
 
 lambda:
-    | '{' pattern '->' expr '}'
+    | '[' pattern '->' expr ']'
     ;
 
 intersection: 'intersect' '(' expr ',' expr ')';
@@ -89,7 +93,5 @@ union: 'union' '(' expr ',' expr ')';
 
 star: 'star' '(' expr ')';
 
-CFG: 'CFG' '('  String  ')';
-REGEX: 'REGEX' '(' String ')';
 EOL: '\r'? '\n';
 WS: ([ \t\r] | '/*' ~[\r\n]* '*/')+ -> skip;

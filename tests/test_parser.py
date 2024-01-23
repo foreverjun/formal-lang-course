@@ -13,15 +13,15 @@ parser_correct = [
     "val new_ = set_final({1 ,2 ,3 }, gr);",
     "val new_ = add_start({1 ,2 ,3 }, gr);",
     'val loader = load_graph("graph.txt");',
-    'val reg = REGEX("a* b*");',
-    'val cfg = CFG("S -> a S b | $");',
+    'val reg = regex("a* b*");',
+    'val g = cfg("S -> a S b | $");',
     "val inters = intersect(g1, g2);",
     "val inters = union(g1, g2);",
     "val reachi = get_reachable(g1);",
     "val v = get_nodes(g1);",
-    "val v = filter({i -> i}, get_nodes (graph) );",
-    "val m = map({i -> i}, get_start (graph) );",
-    "val nodes1 = filter ({ v -> v in s}, ( map ({((u_g,u_q1),l,(v_g,v_q1)) -> u_g}, get_edges (graph)) ));",
+    "val v = filter([ i -> i], get_nodes (graph) );",
+    "val m = map([i -> i], get_start (graph) );",
+    "val nodes1 = filter ([ v -> v in s], ( map ([((u_g,u_q1),l,(v_g,v_q1)) -> u_g], get_edges (graph)) ));",
 ]
 
 parser_incorrect = [

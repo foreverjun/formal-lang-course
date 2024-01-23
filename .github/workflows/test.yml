@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt
       - name: Generate parser
         working-directory: project/parser
-        run: antlr4 language.g4 -Dlanguage=Python3
+        run: antlr4 language.g4 -visitor -Dlanguage=Python3
       - name: Run tests
         run: |
           python ./scripts/run_tests.py
