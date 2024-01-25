@@ -37,8 +37,8 @@ def match(pat: Pat, value):
         if isinstance(value, Triple):
             return {
                 **match(pat.first, value.start),
-                **match(pat.second, value.end),
-                **match(pat.third, value.label),
+                **match(pat.second, value.label),
+                **match(pat.third, value.end),
             }
     else:
         raise TypeError("Invalid pattern type")

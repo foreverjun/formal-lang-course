@@ -20,7 +20,7 @@ class Pair:
 
 
 class Triple:
-    def __init__(self, start, end, label):
+    def __init__(self, start, label, end):
         if type(start) != type(end):
             raise TypeError("start and end must be of the same type")
         self.start = start
